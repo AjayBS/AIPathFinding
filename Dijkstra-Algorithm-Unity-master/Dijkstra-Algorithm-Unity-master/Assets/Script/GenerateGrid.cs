@@ -15,12 +15,16 @@ public class GenerateGrid : MonoBehaviour {
 	void Start () {
         this.generateGrid();
         this.generateNeighbours();
-	}
-	
+        GameManager manager = GetComponent<GameManager>();
+        if(manager!=null)
+        manager.AfterGridGenerated();
+
+    }
+
     /// <summary>
     /// Generate the grid with the node.
     /// </summary>
-	private void generateGrid()
+    private void generateGrid()
     {
 
         int counter = 0;
@@ -35,6 +39,7 @@ public class GenerateGrid : MonoBehaviour {
             }
         }
 
+        
         
     }
 

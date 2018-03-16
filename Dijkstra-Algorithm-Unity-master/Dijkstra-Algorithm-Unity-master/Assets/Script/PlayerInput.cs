@@ -139,7 +139,7 @@ public class PlayerInput : MonoBehaviour {
             {
                 Renderer rend = path.GetComponent<Renderer>();
                 rend.material.color = Color.red;
-            }
+            }            
         }
     }
 

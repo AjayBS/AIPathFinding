@@ -6,7 +6,7 @@ public class ShortestPath : MonoBehaviour
 {
 
     private GameObject[] nodes;
-
+    
     /// <summary>
     /// Finding the shortest path and return in a List
     /// </summary>
