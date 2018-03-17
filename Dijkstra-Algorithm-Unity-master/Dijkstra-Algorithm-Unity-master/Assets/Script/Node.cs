@@ -130,4 +130,5 @@ public class Node : MonoBehaviour
         bool result = walkable;
         return result;
     }
+  
 }

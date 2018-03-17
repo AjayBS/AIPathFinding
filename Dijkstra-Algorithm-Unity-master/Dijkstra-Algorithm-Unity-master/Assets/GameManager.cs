@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour {
-    public GameObject player;
     private Transform startNode;
     private Transform endNode;
 
@@ -79,6 +78,15 @@ public class GameManager : MonoBehaviour {
             path.GetComponent<Node>().setWeight(int.MaxValue);
             path.GetComponent<Node>().sethCost(0);
             path.GetComponent<Node>().resetNode();
+        }
+    }
+
+    public void SnakeBody(Node node)
+    {
+        if (node == null)
+        {
+            Renderer rend = node.GetComponent<Renderer>();
+            rend.material.color = Color.yellow;
         }
     }
 }

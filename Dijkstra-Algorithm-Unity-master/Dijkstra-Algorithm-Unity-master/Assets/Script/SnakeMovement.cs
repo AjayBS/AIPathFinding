@@ -7,35 +7,51 @@ public class SnakeMovement : MonoBehaviour {
     private List<Transform> path;
     private int currentPathIndex = 0;
     private bool allowMovement = false;
-    [SerializeField]
-    private GameObject player;
+    private Node currentNode;
 
-	// Use this for initialization
-	void Start () {
+    private Node previousNode;
+
+    private float secondsSpent = 2.0f;
+
+    float startTime;
+
+    // Use this for initialization
+    void Start () {
         if (path == null)
         {
             path = new List<Transform>();
-        }
-	}
+        }        
+    }
 	
 	// Update is called once per frame
 	void Update () {
 		if(allowMovement)
         {
             if(this.path.Count > 0)
-            {
-                if (player.transform.position == this.path[currentPathIndex].transform.position)
+            {           
+               if (Time.time - startTime > 0.52)
+               {
                     currentPathIndex++;
+                    if (currentPathIndex < path.Count)
+                    {
+                        currentNode = this.path[currentPathIndex].GetComponent<Node>();
+                        Renderer rend = currentNode.GetComponent<Renderer>();
+                        rend.material.color = Color.yellow;
+                        startTime = Time.time;
 
-                if (currentPathIndex < path.Count)
-                    player.transform.position = Vector3.MoveTowards(player.transform.position, path[currentPathIndex].transform.position, Time.deltaTime * 10);
-                else
-                {                   
-                    allowMovement = false;
-                    GetComponent<GameManager>().SetStartAndEndNode(path[currentPathIndex - 1]);
-                    currentPathIndex = 0;
-                }
-                
+                        Node previousNode = this.path[currentPathIndex - 1].GetComponent<Node>();
+                        Renderer prevRend = previousNode.GetComponent<Renderer>();
+                        prevRend.material.color = Color.white;
+                    }
+                    else
+                    {
+                        allowMovement = false;
+                        previousNode = currentNode;
+                        GetComponent<GameManager>().SetStartAndEndNode(path[currentPathIndex - 1]);
+                        currentPathIndex = 0;
+                    }
+                        
+               }
             }
         }
 	}
@@ -50,6 +66,10 @@ public class SnakeMovement : MonoBehaviour {
        
         currentPathIndex = 0;
         allowMovement = true;
-        player.transform.position = path[0].transform.position;
+        startTime = Time.time;
+        currentNode = this.path[0].GetComponent<Node>();
+        Renderer rend = currentNode.GetComponent<Renderer>();
+        rend.material.color = Color.yellow;
+
     }
 }
