@@ -8,10 +8,18 @@ public class SnakeMovement : MonoBehaviour {
     private int currentPathIndex = 0;
     private bool allowMovement = false;
     [SerializeField]
-    private GameObject player;
+    private SnakeTile head;
+    [SerializeField]
+    private SnakeTile tail;
+    Vector3 nextPos;
+    [SerializeField]
+    private GameObject snakePrefab;
 
-	// Use this for initialization
-	void Start () {
+    public int currentSize;
+    public int maxSize;
+
+    // Use this for initialization
+    void Start () {
         if (path == null)
         {
             path = new List<Transform>();
@@ -24,11 +32,28 @@ public class SnakeMovement : MonoBehaviour {
         {
             if(this.path.Count > 0)
             {
-                if (player.transform.position == this.path[currentPathIndex].transform.position)
+                if (head.transform.position == this.path[currentPathIndex].transform.position)
+                {
                     currentPathIndex++;
+                    
+                }
+                    
 
                 if (currentPathIndex < path.Count)
-                    player.transform.position = Vector3.MoveTowards(player.transform.position, path[currentPathIndex].transform.position, Time.deltaTime * 10);
+                {
+                    nextPos = Vector3.MoveTowards(head.transform.position, path[currentPathIndex].transform.position, Time.deltaTime * 10);
+                    GameObject temp = (GameObject)Instantiate(snakePrefab, nextPos, transform.rotation);
+                    head.SetNext(temp.GetComponent<SnakeTile>());
+                    head = temp.GetComponent<SnakeTile>();
+                    if(currentSize >= maxSize)
+                    {
+                        TailFunction();
+                    }
+                    else
+                    {
+                        currentSize++;
+                    }
+                }                   
                 else
                 {                   
                     allowMovement = false;
@@ -40,6 +65,11 @@ public class SnakeMovement : MonoBehaviour {
         }
 	}
 
+    public SnakeTile GetHead()
+    {
+        return head;
+    }
+
     public void SetPath(List<Transform> i_path)
     {
         this.path.Clear();
@@ -50,6 +80,15 @@ public class SnakeMovement : MonoBehaviour {
        
         currentPathIndex = 0;
         allowMovement = true;
-        player.transform.position = path[0].transform.position;
+        head.transform.position = path[0].transform.position;
+
+        maxSize++;
+    }
+
+    void TailFunction()
+    {
+        SnakeTile tempsSnake = tail;
+        tail = tail.GetNext();
+        tempsSnake.RemoveTail();
     }
 }

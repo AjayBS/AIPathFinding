@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour {
     private Transform endNode;
 
     private GameObject[] nodes;
+   
 
     // Use this for initialization
     void Start () {        
@@ -54,10 +55,15 @@ public class GameManager : MonoBehaviour {
     internal void SetStartAndEndNode(Transform i_node)
     {
         startNode = i_node;
+        SetInactiveNodes();
         ChooseRandomEndNode();
         FindPath();
     }
 
+    private void SetInactiveNodes()
+    {
+         GetComponent<SnakeMovement>().GetHead();
+    }
 
     private void FindPath()
     {
@@ -81,4 +87,6 @@ public class GameManager : MonoBehaviour {
             path.GetComponent<Node>().resetNode();
         }
     }
+
+   
 }
