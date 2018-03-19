@@ -24,8 +24,6 @@ public class UnitSelectionComponent : MonoBehaviour
                 // Disable and remove selection.
                 if (selectableObject.isSelected())
                 {
-                    Renderer rend = selectableObject.GetComponent<Renderer>();
-                    rend.material.color = Color.white;
                     selectableObject.setSelection(false);
                 }
             }
@@ -56,8 +54,6 @@ public class UnitSelectionComponent : MonoBehaviour
                     if (!selectableObject.isSelected())
                     {
                         selectableObject.setSelection(true);
-                        Renderer rend = selectableObject.GetComponent<Renderer>();
-                        rend.material.color = Color.green;
                     }
                 }
                 else
@@ -65,8 +61,7 @@ public class UnitSelectionComponent : MonoBehaviour
                     // Destroy all the selected object.
                     if (selectableObject.isSelected())
                     {
-                        Renderer rend = selectableObject.GetComponent<Renderer>();
-                        rend.material.color = Color.white;
+                       
                         selectableObject.setSelection(false);
                     }
                 }

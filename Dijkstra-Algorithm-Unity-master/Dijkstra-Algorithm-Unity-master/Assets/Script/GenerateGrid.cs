@@ -43,6 +43,27 @@ public class GenerateGrid : MonoBehaviour {
         
     }
 
+    public void SetInactiveNode(Vector3 position)
+    {
+        for(int i = 0; i < grid.Count; i++)
+        {
+            if(grid[i].transform.position == position)
+            {
+                grid[i].GetComponent<Node>().setWalkable(false);
+                break;
+            }
+        }
+    }
+
+    public void SetAllAsActive()
+    {
+        for (int i = 0; i < grid.Count; i++)
+        {
+           
+                grid[i].GetComponent<Node>().setWalkable(true);
+        }
+    }
+
     /// <summary>
     /// Generate the neighbours for each node.
     /// </summary>

@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour {
     private Transform endNode;
 
     private GameObject[] nodes;
+    public GameObject fruit;
    
 
     // Use this for initialization
@@ -36,10 +37,12 @@ public class GameManager : MonoBehaviour {
         int maxSize = nodes.Length;
         int randomNumber = UnityEngine.Random.Range(0, maxSize);
         endNode = nodes[randomNumber].transform;
+        fruit.transform.position = endNode.position;
         while (startNode == endNode)
         {
             randomNumber = UnityEngine.Random.Range(0, maxSize);
             endNode = nodes[randomNumber].transform;
+            fruit.transform.position = endNode.position;
         }
        
     }
@@ -62,7 +65,13 @@ public class GameManager : MonoBehaviour {
 
     private void SetInactiveNodes()
     {
-         GetComponent<SnakeMovement>().GetHead();
+        GetComponent<GenerateGrid>().SetAllAsActive();
+        SnakeTile currentHead =  GetComponent<SnakeMovement>().GetHead();
+        while(currentHead != null)
+        {
+            GetComponent<GenerateGrid>().SetInactiveNode(currentHead.transform.position);
+            currentHead = currentHead.GetNext();
+        }
     }
 
     private void FindPath()
@@ -71,12 +80,7 @@ public class GameManager : MonoBehaviour {
         ShortestPath finder = gameObject.GetComponent<ShortestPath>();
         List<Transform> paths = finder.findShortestPath(startNode, endNode);
 
-        // Colour the node red.
-        foreach (Transform path in paths)
-        {
-            Renderer rend = path.GetComponent<Renderer>();
-            rend.material.color = Color.red;
-        }
+       
 
         GetComponent<SnakeMovement>().SetPath(paths);
         // Colour the node red.
